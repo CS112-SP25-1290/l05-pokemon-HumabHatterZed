@@ -10,8 +10,7 @@ public class PokemonBox {
 	// CONSTRUCTORS
 	public PokemonBox(Pokemon[] caught) {
 		if(caught == null || caught.length == 0) {
-			System.out.println("ERROR: Invalid Pokemon array provided to PokemonBox. Exiting program.");
-			System.exit(0);
+			throw new IndexOutOfBoundsException("ERROR: Invalid Pokemon array provided to PokemonBox.");
 		}
 		this.numCaught = caught.length;
 		this.caught = this.deepCopyArray(caught, this.numCaught*2);
@@ -56,8 +55,17 @@ public class PokemonBox {
 	}
 
 	// MUTATOR/SETTER METHODS
-	public void add(Pokemon newPoke) {
+	public void add(Pokemon newPoke) throws PokemonAlreadyExistsException {
 		//new pokemon,  add to partially filled array
+
+		for (int i = 0; i < numCaught; i++)
+		{
+			if (caught[i].equals(newPoke))
+			{
+				throw new PokemonAlreadyExistsException("Pokemon already exists in Box.");
+			}
+		}
+
 		//but first check if box is full
 		if(this.numCaught == this.caught.length) {
 			//if full, then grow array *2 and copy contents over

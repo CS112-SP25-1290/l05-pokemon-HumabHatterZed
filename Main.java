@@ -1,7 +1,8 @@
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws PokemonAlreadyExistsException, IllegalArgumentException, InputMismatchException {
 		// DECLARATION + INITIALIZATION
 		int choice = -1;
 		boolean tryAgain = true;
@@ -30,10 +31,19 @@ class Main {
 			System.out.println("\nMAIN MENU\nWhat would you like to do?");
 			System.out.println("\t1) Add a New Pokemon \n\t2) List All Pokemon \n\t3) Exit Program \n");
 			System.out.print("Enter choice number> ");
-			choice = keyboard.nextInt(); //could throw exception here and skip rest of code
-			keyboard.nextLine();
-			System.out.println();
-
+			try
+			{
+				choice = keyboard.nextInt(); //could throw exception here and skip rest of code
+				keyboard.nextLine();
+				System.out.println();	
+			}
+			catch (InputMismatchException e)
+			{
+				System.out.println("Error: input must be a number.");
+				keyboard.nextLine();
+				continue;
+			}
+			
 			if (choice == 1) {
 				System.out.println("Enter Pokemon Info to be added:");
 				System.out.print("Enter Pokemon Name> ");
@@ -44,8 +54,20 @@ class Main {
 				String type2 = keyboard.nextLine();
 				type2 = (type2.equalsIgnoreCase("none")) ? null : type2;
 
-				Pokemon p = new Pokemon(name, type1, type2);
-				myBox.add(p); //could throw exception here and skip rest of code
+				
+				try {
+					Pokemon p = new Pokemon(name, type1, type2);
+					myBox.add(p); //could throw exception here and skip rest of code
+				}
+				catch (IllegalArgumentException e) {
+					System.out.println("Invalid name or types for Pokemon entered. Please make sure types are valid or enter 'none' for type 2.");;
+					continue;
+				}
+				catch (PokemonAlreadyExistsException e) {
+					System.out.println("Error: Pokemon already exists in box.");
+					System.out.println("Please remember our regions sustainability efforts in reducing habitat loss and environmental");
+					continue;
+				}
 
 				System.out.println("\n" + name + " added!");
 			} else if (choice == 2) {
