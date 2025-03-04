@@ -35,11 +35,11 @@ class Main {
 			{
 				choice = keyboard.nextInt(); //could throw exception here and skip rest of code
 				keyboard.nextLine();
-				System.out.println();	
 			}
 			catch (InputMismatchException e)
 			{
-				System.out.println("Error: input must be a number.");
+				System.out.println();
+				System.out.println("Error: input must be a valid positive integer.");
 				keyboard.nextLine();
 				continue;
 			}
@@ -60,10 +60,17 @@ class Main {
 					myBox.add(p); //could throw exception here and skip rest of code
 				}
 				catch (IllegalArgumentException e) {
-					System.out.println("Invalid name or types for Pokemon entered. Please make sure types are valid or enter 'none' for type 2.");;
+					System.out.println();
+					System.out.println(
+							"Invalid name or types for Pokemon entered. Please make sure types are valid or enter 'none' for type 2.");
+					System.out.println("Valid types:");
+					System.out.println(
+							"[Water, Grass, Fire, Normal, Fighting, Ghost, Dark, Fairy, Psychic, Electric, Flying, Ground, Rock, Steel, Ice, Bug, Poison, Dragon]");
+					System.out.println();
 					continue;
 				}
 				catch (PokemonAlreadyExistsException e) {
+					System.out.println();
 					System.out.println("Error: Pokemon already exists in box.");
 					System.out.println("Please remember our regions sustainability efforts in reducing habitat loss and environmental");
 					continue;
